@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { projectAuth } from "../firebase"
+import { projectAuth } from "../firebase/config"
 
 export const useSignup = () => {
   const [error, setError] = useState(null)
@@ -25,5 +25,9 @@ export const useSignup = () => {
     }
   }
 
-  return { error, isPending, signup }
+  return {
+    error,
+    isPending,
+    signup
+  }
 }
