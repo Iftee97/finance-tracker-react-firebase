@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useFirestore } from '../../hooks/useFirestore'
 
 const TransactionForm = ({ uid }) => {
@@ -18,13 +18,6 @@ const TransactionForm = ({ uid }) => {
     setName('')
     setAmount('')
   }
-
-  // useEffect(() => {
-  //   if (response.success) {
-  //     setName('')
-  //     setAmount('')
-  //   }
-  // }, [response.success])
 
   return (
     <>
