@@ -30,7 +30,9 @@ const Login = () => {
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </label>
 
-      <button className='btn'>login</button>
+      {!isPending && <button className='btn'>login</button>}
+      {isPending && <button className='btn' disabled>logging in...</button>}
+      {error && <p className='error'>{error}</p>}
     </form>
   )
 }
