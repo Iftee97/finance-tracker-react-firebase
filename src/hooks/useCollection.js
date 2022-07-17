@@ -22,7 +22,7 @@ export const useCollection = (collection) => {
       setError('could not fetch data')
     })
 
-    // clean up on unmount
+    // clean-up on unmount
     return () => {
       unsubscribe()
     }
