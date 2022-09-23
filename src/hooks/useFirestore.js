@@ -2,7 +2,7 @@ import { useState, useEffect, useReducer } from "react"
 import { projectFirestore } from "../firebase/config"
 import { collection, Timestamp, doc, addDoc, deleteDoc } from "firebase/firestore";
 
-let initialState = {
+const initialState = {
   document: null,
   isPending: false,
   error: null,

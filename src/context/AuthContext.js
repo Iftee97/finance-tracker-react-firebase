@@ -4,6 +4,11 @@ import { onAuthStateChanged } from 'firebase/auth'
 
 export const AuthContext = createContext()
 
+// let initialState = {
+//   user: null,
+//   authIsReady: false
+// }
+
 export const authReducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN':
@@ -30,6 +35,7 @@ export const authReducer = (state, action) => {
 }
 
 export const AuthContextProvider = ({ children }) => {
+  // const [state, dispatch] = useReducer(authReducer, initialState) // this could be used instead of the below
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
     authIsReady: false

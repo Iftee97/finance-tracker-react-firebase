@@ -24,17 +24,29 @@ const Signup = () => {
 
       <label>
         <span>email:</span>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
       </label>
 
       <label>
         <span>password:</span>
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
       </label>
 
       <label>
         <span>username:</span>
-        <input type="text" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
+        <input
+          type="text"
+          value={displayName}
+          onChange={(e) => setDisplayName(e.target.value)}
+        />
       </label>
 
       {!isPending && <button className='btn'>signup</button>}

@@ -21,7 +21,7 @@ export const useSignup = () => {
       }
       await updateProfile(response.user, { displayName })
 
-      // dispatch LOGIN action
+      // dispatch LOGIN action -- we can use the same action for login and signup
       dispatch({ type: "LOGIN", payload: response.user })
 
       if (!isCancelled) {
