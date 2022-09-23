@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuthContext } from './hooks/useAuthContext'
 
 // pages & components
@@ -16,17 +16,20 @@ const App = () => {
       {authIsReady && (
         <BrowserRouter>
           <Navbar />
-          <Switch>
-            <Route exact path="/">
-              {user ? <Home /> : <Redirect to="/login" />}
-            </Route>
-            <Route path="/login">
-              {user ? <Redirect to="/" /> : <Login />}
-            </Route>
-            <Route path="/signup">
-              {user ? <Redirect to="/" /> : <Signup />}
-            </Route>
-          </Switch>
+          <Routes>
+            <Route
+              path='/'
+              element={user ? <Home /> : <Navigate to="/login" />}
+            />
+            <Route
+              path='/login'
+              element={user ? <Navigate to="/" /> : <Login />}
+            />
+            <Route
+              path='/signup'
+              element={user ? <Navigate to="/" /> : <Signup />}
+            />
+          </Routes>
         </BrowserRouter>
       )}
     </div>
