@@ -1,5 +1,6 @@
-import React from 'react'
 import { useFirestore } from '../../hooks/useFirestore'
+
+// styles
 import styles from './Home.module.css'
 
 const TransactionList = ({ transactions }) => {
@@ -13,9 +14,8 @@ const TransactionList = ({ transactions }) => {
           <p className={styles.amount}>${transaction.amount}</p>
           <button onClick={() => deleteDocument(transaction.id)}>X</button>
         </li>
-      ))
-      }
-    </ul >
+      ))}
+    </ul>
   )
 }
 
