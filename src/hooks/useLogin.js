@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { projectAuth } from '../firebase/config'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useAuthContext } from './useAuthContext'
 
 export const useLogin = () => {
@@ -14,7 +15,7 @@ export const useLogin = () => {
 
     try {
       // sign in user with email, password using firebase auth
-      const response = await projectAuth.signInWithEmailAndPassword(email, password)
+      const response = await signInWithEmailAndPassword(projectAuth, email, password)
       if (!response) {
         throw new Error("could not complete login")
       }
