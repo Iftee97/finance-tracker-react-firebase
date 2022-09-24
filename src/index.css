@@ -37,3 +37,9 @@ ul {
   background: #1f9751;
   color: #fff;
 }
+
+.error {
+  color: red;
+  border: 2px solid red;
+  padding: 6px 12px;
+}

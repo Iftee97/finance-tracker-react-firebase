@@ -1,19 +1,18 @@
 import { useState } from 'react'
-import { useFirestore } from '../../hooks/useFirestore'
+
+// firebase imports
+import { firestoreDb } from '../../firebase/config'
+import { collection, addDoc, Timestamp } from "firebase/firestore"
 
 const TransactionForm = ({ uid }) => {
   const [name, setName] = useState('')
   const [amount, setAmount] = useState('')
-  const { addDocument } = useFirestore('transactions')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // console.log({ uid, name, amount })
-    addDocument({
-      uid,
-      name,
-      amount
-    })
+
+    const createdAt = Timestamp.fromDate(new Date()) // adds the current date of creation
+    await addDoc(collection(firestoreDb, "transactions"), { uid, name, amount, createdAt })
 
     setName('')
     setAmount('')
