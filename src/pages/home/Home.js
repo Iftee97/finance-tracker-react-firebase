@@ -1,5 +1,9 @@
+import { useState, useEffect } from 'react'
 import { useAuthContext } from '../../hooks/useAuthContext'
-import { useCollection } from '../../hooks/useCollection'
+
+// firebase imports
+import { firestoreDb } from '../../firebase/config'
+import { collection, query, where, onSnapshot, orderBy } from "firebase/firestore"
 
 // components
 import TransactionList from './TransactionList'
@@ -9,18 +13,47 @@ import TransactionForm from './TransactionForm'
 import styles from './Home.module.css'
 
 const Home = () => {
+  const [transactions, setTransactions] = useState([])
+  const [error, setError] = useState(null)
   const { user } = useAuthContext()
-  const { documents, error } = useCollection(
-    'transactions',
-    ['uid', '==', user.uid],
-    ['createdAt', 'desc']
-  )
+
+  // fetching real-time data from firestore when the component mounts
+  useEffect(() => {
+    const q = query(
+      collection(firestoreDb, "transactions"),
+      where("uid", "==", user.uid),
+      orderBy("createdAt", "desc")
+    )
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      // const data = []
+      // querySnapshot.forEach((doc) => {
+      //   data.push(doc.data());
+      // })
+      // console.log(data)
+      const data = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id
+      }))
+      console.log("data:", data)
+      setTransactions(data)
+      setError(null)
+    }, (error) => {
+      console.log(error)
+      setError('could not fetch data')
+    })
+
+    // cleanup 
+    return () => {
+      unsubscribe()
+    }
+  }, [user.uid])
 
   return (
     <div className={styles.container}>
       <div className={styles.content}>
         {error && <p>{error}</p>}
-        {documents && <TransactionList transactions={documents} />}
+        {transactions && <TransactionList transactions={transactions} />}
       </div>
 
       <div className={styles.sidebar}>
