@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { projectFirestore } from "../firebase/config"
+import { firestoreDb } from "../firebase/config"
 import { collection, onSnapshot, query, where, orderBy } from 'firebase/firestore'
 
 export const useCollection = (firestoreCollection, _query, _orderBy) => {
@@ -13,7 +13,7 @@ export const useCollection = (firestoreCollection, _query, _orderBy) => {
   const orderByRef = useRef(_orderBy).current
 
   useEffect(() => {
-    let ref = collection(projectFirestore, firestoreCollection)
+    let ref = collection(firestoreDb, firestoreCollection)
 
     if (queryRef && orderByRef) {
       ref = query(ref, where(...queryRef), orderBy(...orderByRef))

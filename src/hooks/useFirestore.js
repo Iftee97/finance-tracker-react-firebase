@@ -1,5 +1,5 @@
 import { useState, useEffect, useReducer } from "react"
-import { projectFirestore } from "../firebase/config"
+import { firestoreDb } from "../firebase/config"
 import { collection, Timestamp, doc, addDoc, deleteDoc } from "firebase/firestore";
 
 const initialState = {
@@ -59,7 +59,7 @@ export const useFirestore = (firestoreCollection) => {
   // add a document
   const addDocument = async (doc) => {
     dispatch({ type: 'IS_PENDING' })
-    const ref = collection(projectFirestore, firestoreCollection)
+    const ref = collection(firestoreDb, firestoreCollection)
 
     try {
       const createdAt = Timestamp.fromDate(new Date()) // adds the current date of creation
@@ -73,7 +73,7 @@ export const useFirestore = (firestoreCollection) => {
   // delete a document
   const deleteDocument = async (id) => {
     dispatch({ type: 'IS_PENDING' })
-    const ref = doc(projectFirestore, firestoreCollection, id)
+    const ref = doc(firestoreDb, firestoreCollection, id)
 
     try {
       await deleteDoc(ref)

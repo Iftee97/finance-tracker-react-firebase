@@ -1,11 +1,12 @@
-import React from 'react'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useCollection } from '../../hooks/useCollection'
-import styles from './Home.module.css'
 
 // components
 import TransactionList from './TransactionList'
 import TransactionForm from './TransactionForm'
+
+// styles
+import styles from './Home.module.css'
 
 const Home = () => {
   const { user } = useAuthContext()

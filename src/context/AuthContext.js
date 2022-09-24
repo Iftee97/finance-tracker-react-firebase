@@ -1,5 +1,5 @@
 import { createContext, useReducer, useEffect } from 'react'
-import { projectAuth } from '../firebase/config'
+import { auth } from '../firebase/config'
 import { onAuthStateChanged } from 'firebase/auth'
 
 export const AuthContext = createContext()
@@ -43,7 +43,7 @@ export const AuthContextProvider = ({ children }) => {
 
   // the following code handles weird auth status behaviors on refresh
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(projectAuth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       dispatch({ type: 'AUTH_IS_READY', payload: user })
       unsubscribe()
     })

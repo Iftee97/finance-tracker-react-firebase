@@ -15,10 +15,10 @@ const firebaseConfig = {
 initializeApp(firebaseConfig)
 
 // initilize firebase services -- firestore and auth
-const projectFirestore = getFirestore()
-const projectAuth = getAuth()
+const firestoreDb = getFirestore()
+const auth = getAuth()
 
 export {
-  projectFirestore,
-  projectAuth
+  firestoreDb,
+  auth
 }
