@@ -47,5 +47,5 @@ export const useCollection = (collection, _query, _orderBy) => {
   }
 }
 
-// this custom hook is used to access the stored documens in the firestore database
+// this custom hook is used to access the stored documents in the firestore database
 // and use them in the application frontend
