@@ -20,17 +20,12 @@ const Home = () => {
   // fetching real-time data from firestore when the component mounts
   useEffect(() => {
     const q = query(
-      collection(firestoreDb, "transactions"),
+      collection(firestoreDb, "transactions"), // reference to the collection
       where("uid", "==", user.uid),
       orderBy("createdAt", "desc")
     )
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      // const data = []
-      // querySnapshot.forEach((doc) => {
-      //   data.push(doc.data());
-      // })
-      // console.log(data)
       const data = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id
