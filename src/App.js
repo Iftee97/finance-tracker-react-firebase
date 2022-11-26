@@ -9,29 +9,27 @@ import Signup from './pages/signup/Signup'
 import Navbar from './components/Navbar'
 
 const App = () => {
-  const { authIsReady, user } = useAuthContext()
+  const { user } = useAuthContext()
 
   return (
     <div className="App">
-      {authIsReady && (
-        <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route
-              path='/'
-              element={user ? <Home /> : <Navigate to="/login" />}
-            />
-            <Route
-              path='/login'
-              element={user ? <Navigate to="/" /> : <Login />}
-            />
-            <Route
-              path='/signup'
-              element={user ? <Navigate to="/" /> : <Signup />}
-            />
-          </Routes>
-        </BrowserRouter>
-      )}
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route
+            path='/'
+            element={user ? <Home /> : <Navigate to="/login" />}
+          />
+          <Route
+            path='/login'
+            element={user ? <Navigate to="/" /> : <Login />}
+          />
+          <Route
+            path='/signup'
+            element={user ? <Navigate to="/" /> : <Signup />}
+          />
+        </Routes>
+      </BrowserRouter>
     </div>
   )
 }
