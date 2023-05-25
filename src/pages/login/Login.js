@@ -1,5 +1,7 @@
-import { useState } from 'react'
-import { useLogin } from '../../hooks/useLogin'
+import { useState, useEffect } from 'react'
+import { auth } from '../../firebase/config'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { useAuthContext } from '../../hooks/useAuthContext'
 
 // styles
 import styles from './Login.module.css'
@@ -7,15 +9,47 @@ import styles from './Login.module.css'
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { login, error, isPending } = useLogin()
+  const [error, setError] = useState(null)
+  const [isPending, setIsPending] = useState(false)
+  const [isCancelled, setIsCancelled] = useState(false)
+  const { dispatch } = useAuthContext()
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    return () => {
+      setIsCancelled(true) // cleanup on unmount
+    }
+  }, [])
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // console.log(email, password)
-    login(email, password)
 
-    setEmail('')
-    setPassword('')
+    try {
+      setError(null)
+      setIsPending(true)
+
+      // sign in user with email, password using firebase auth
+      const response = await signInWithEmailAndPassword(auth, email, password)
+      if (!response) {
+        throw new Error("could not complete login")
+      }
+
+      // dispatch LOGIN action
+      dispatch({ type: "LOGIN", payload: response.user })
+
+      if (!isCancelled) {
+        setIsPending(false)
+        setError(null)
+      }
+    } catch (error) {
+      if (!isCancelled) {
+        console.log(error.message)
+        setError(error.message)
+        setIsPending(false)
+      }
+    } finally {
+      setEmail('')
+      setPassword('')
+    }
   }
 
   return (

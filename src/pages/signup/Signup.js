@@ -1,5 +1,7 @@
-import { useState } from 'react'
-import { useSignup } from '../../hooks/useSignup'
+import { useState, useEffect } from 'react'
+import { auth } from '../../firebase/config'
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
+import { useAuthContext } from '../../hooks/useAuthContext'
 
 // styles
 import styles from './Signup.module.css'
@@ -8,16 +10,50 @@ const Signup = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [displayName, setDisplayName] = useState('')
-  const { error, isPending, signup } = useSignup()
+  const [error, setError] = useState(null)
+  const [isPending, setIsPending] = useState(false)
+  const [isCancelled, setIsCancelled] = useState(false)
+  const { dispatch } = useAuthContext()
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    return () => {
+      setIsCancelled(true)
+    }
+  }, [])
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // console.log(email, password, displayName)
-    signup(email, password, displayName)
 
-    setEmail('')
-    setPassword('')
-    setDisplayName('')
+    try {
+      setError(null)
+      setIsPending(true)
+
+      // sign up user with email, password using firebase auth
+      const response = await createUserWithEmailAndPassword(auth, email, password)
+      if (!response) {
+        throw new Error("could not complete sign up")
+      }
+      // add display name to the created user
+      await updateProfile(response.user, { displayName })
+
+      // dispatch LOGIN action -- we can use the same action for login and signup
+      dispatch({ type: "LOGIN", payload: response.user })
+
+      if (!isCancelled) {
+        setIsPending(false)
+        setError(null)
+      }
+    } catch (error) {
+      if (!isCancelled) {
+        console.log(error.message)
+        setError(error.message)
+        setIsPending(false)
+      }
+    } finally {
+      setEmail('')
+      setPassword('')
+      setDisplayName('')
+    }
   }
 
   return (
